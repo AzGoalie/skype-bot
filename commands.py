@@ -62,14 +62,16 @@ def help(Message):
     Message.Chat.SendMessage("Current list of commands:\n!ping - pings the bot to see if its online\n!roll x - rolls a dice of x sides (default 6)\n!catfact - Says an informational fact about cats\n!bot to talk to the bot!\n!trivia to toggle the trivia game!\nWill respond to youtube and imgur links and post the title")
 
 def youtube(Message):
-    url_data = urlparse.urlparse(Message.Body)
-    query = urlparse.parse_qs(url_data.query)
-    video = query['v'][0]
-    data = json.loads(urllib2.urlopen(config.API_P1 + video + config.API_P2).read())
-    title = data['items'][0]['snippet']['title']
-    if title:
-        Message.Chat.SendMessage(title + ' - Youtube')
-    print 'Youtube Command Recieved'
+    url = re.search("(?P<url>https?://[^\s]+)", Message.Body).group("url")
+    soup = soup = BeautifulSoup(urllib2.urlopen(url))
+
+    try:
+    	title = ' '.join(soup.title.string.split())
+    	if title:
+	    Message.Chat.SendMessage(title)
+    	print 'Youtube Command Recieved: ' + title
+    except:
+	print 'No title Found - Youtube'
 	
 def imgur(Message):
     url = re.search("(?P<url>https?://[^\s]+)", Message.Body).group("url")
