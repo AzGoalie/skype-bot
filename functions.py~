@@ -1,0 +1,54 @@
+import json
+import urllib2
+import urlparse
+from chatterbotapi import ChatterBotFactory, ChatterBotType
+
+from catfacts import catfacts
+import config
+
+API_P1 = 'https://www.googleapis.com/youtube/v3/videos?id='
+API_P2 = '&key=AIzaSyBvL5DKHluKpCM2B6S32gPOL4lNIW3Y6xc&fields=items(snippet(title))&part=snippet'
+
+def cmd_youtube(Message):
+    url_data = urlparse.urlparse(Message.Body)
+    query = urlparse.parse_qs(url_data.query)
+    video = query['v'][0]
+    data = json.loads(urllib2.urlopen(API_P1 + video + API_P2).read())
+    title = data['items'][0]['snippet']['title']
+    if title:
+        Message.Chat.SendMessage('Video Title: ' + title)
+    print 'Youtube Command Recieved\n'
+	
+def cmd_roll(Message):
+    str = Message.Body.replace('!roll', '')
+    sides = [int(s) for s in str.split() if s.isdigit()]
+    if not sides:
+        sides = [6]
+    roll = random.randint(1,sides[0])
+    Message.Chat.SendMessage(Message.Sender.FullName + ' rolled a ' + str(roll))
+    print 'Roll Command Recieved \n'
+	
+def cmd_catfact(Message):
+    Message.Chat.SendMessage(random.choice(catfacts))
+    print 'Catfacts Command Recieved\n'
+	
+def cmd_botstart(Message):
+    if !config.chatbotOn:
+        config.chatbotOn = True
+	config.chatbot = ChatterBotFactory().create(ChatterBotType.CLEVERBOT)
+	config.chatbotSession = config.chatbot.create_session()
+	Message.Chat.SendMessage('Chatbot Started: Use "!bot" to talk to it!')
+	print "Chatbot started\n"
+	
+def cmd_bot(Message):
+    if config.chatbotOn:
+	s = Message.Body.replace('!bot ', '', 1)
+	s = config.chatbotSession.think(s)
+	Message.Chat.SendMessage(s)
+	print 'Bot Command Recieved\n'
+		
+def cmd_botoff(Message):
+    if config.chatbotOn:
+	config.chatbotOn = False
+	Message.Chat.SendMessage('Chatbot is now off')
+	print 'Chatbot Turned Off\n'
