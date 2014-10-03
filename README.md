@@ -5,7 +5,7 @@ It only works with old skype chats (pre cloud chats). There is currently no way 
 
 Features:
 --------
-    * Built in chat bot using ChatBot-API!
+    * Built in chat bot using ChatterBot-API!
     * Trivia mode! Starts a game of trivia and keeps track of score. Scores reset at the end of each game (end a game by togleing !trivia)
     * Random Catfacts
     * Posts youtube video and imgur titles to chat
@@ -23,5 +23,5 @@ Commands:
     * !trivia - toggles the trivia game, respond with '!' at the start of your answers
     
 
-Uses Skype4Py, Beautiful Soup, and ChatbotAPI  
+Uses Skype4Py, Beautiful Soup, and ChatterbotAPI  
 Trivia questions taken from https://github.com/rawsonj/triviabot
