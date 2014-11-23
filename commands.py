@@ -45,6 +45,8 @@ def doCommand(Message, Status):
 	    bot(Message)
 	elif Message.Body == '!trivia' and not config.chatbot:
 	    trivia.triviaStart(Message)
+	elif Message.Body == '!leaderboard':
+	    trivia.printLeaderboard(Message)
 	elif config.trivia and not config.chatbotOn:
 	    if Message.Body.startswith('!'):	#There are hidden commands in the trivia loop...
 		trivia.triviaLoop(Message)
