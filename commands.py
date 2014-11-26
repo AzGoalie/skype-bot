@@ -7,6 +7,7 @@ import re
 import json
 import urllib2
 import urlparse
+import HTMLParser
 
 # Used for imgur title
 from BeautifulSoup import BeautifulSoup
@@ -34,9 +35,10 @@ def doCommand(Message, Status):
 	elif Message.Body.startswith('!roll'):
             roll(Message)
 	elif 'youtube.com/watch?v=' in Message.Body:
-	    youtube(Message)
-	elif 'imgur.com/' in Message.Body and not 'i.im':
-	    imgur(Message)
+	    urlTitle(Message)
+	elif 'imgur.com/' in Message.Body and 'i.im' not in Message.Body:
+	    urlTitle(Message)
+	    print 'imgureaklsjdakl'
 	elif Message.Body == '!botstart' and not config.trivia:
 	    botstart(Message)
 	elif Message.Body == '!botend':
@@ -63,28 +65,19 @@ def ping(Message):
 def help(Message):
     Message.Chat.SendMessage("Current list of commands:\n!ping - pings the bot to see if its online\n!roll x - rolls a dice of x sides (default 6)\n!catfact - Says an informational fact about cats\n!bot to talk to the bot!\n!trivia to toggle the trivia game!\nWill respond to youtube and imgur links and post the title")
 
-def youtube(Message):
+def urlTitle(Message):
     url = re.search("(?P<url>https?://[^\s]+)", Message.Body).group("url")
     soup = soup = BeautifulSoup(urllib2.urlopen(url))
 
     try:
-    	title = ' '.join(soup.title.string.split())
+	h = HTMLParser.HTMLParser()
+    	title = h.unescape(' '.join(soup.title.string.split()))
     	if title:
 	    Message.Chat.SendMessage(title)
     	print 'Youtube Command Recieved: ' + title
     except:
-	print 'No title Found - Youtube'
+	print 'No title Found: ' + url
 	
-def imgur(Message):
-    url = re.search("(?P<url>https?://[^\s]+)", Message.Body).group("url")
-    soup = BeautifulSoup(urllib2.urlopen(url))
-    try:
-    	title = ' '.join(soup.title.string.split())
-    	if title:
-	    Message.Chat.SendMessage(title)
-    	print 'Imgur Command Recieved: ' + title
-    except:
-	print 'No title Found - Imgur'
 def roll(Message):
     sides = [token for token in Message.Body.split() if token.isdigit()]
     if not sides:
