@@ -59,4 +59,4 @@ target/
 
 stats.txt
 .git-old/
-"Trivia Scores.txt"
+*.txt
