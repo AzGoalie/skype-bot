@@ -22,7 +22,7 @@ def setupRPG():
 		f.close()
 	print 'rpg initialized'
 
-def calcLevel():
+def calcLevel(msg):
 	global currentLevel	
 	xp = 0
 	level = 1
@@ -30,7 +30,8 @@ def calcLevel():
 	while currentXP > (xp/4):
 		xp += int(level + 300 * math.pow(2, float(level)/7))
 		level += 1
-
+	if currentLevel < level:
+		msg.Chat.SendMessage('Level Up! Level:' + str(level))
 	currentLevel = level
 
 def saveRPG():

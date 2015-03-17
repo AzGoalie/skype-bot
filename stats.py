@@ -54,9 +54,9 @@ def stats(msg):
 		changed = True
 	if changed == True:
 		rpg.currentXP += 1
-		rpg.calcLevel()
+		rpg.calcLevel(msg)
 		rpg.saveRPG()
-		saveStats()
+	saveStats()
  
 def printStats(msg):
 	s = str(numHis) + ' hi\'s (' + "{0:.2f}%)".format(float(numHis)/numLines * 100) + '\n'
