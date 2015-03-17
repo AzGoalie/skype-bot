@@ -50,9 +50,9 @@ def stats(msg):
 		saveStats()
 
 def printStats(msg):
-	s = str(numHis) + ' hi\'s (' + "{0:.0f}%)".format(float(numHis)/numLines * 100) + '\n'
-	s += str(numYs) + ' y\'s (' + "{0:.0f}%)".format(float(numYs)/numLines * 100) + '\n'
-	s += str(numRips) + ' rip\'s (' + "{0:.0f}%)".format(float(numRips)/numLines * 100) + '\n'
+	s = str(numHis) + ' hi\'s (' + "{0:.2f}%)".format(float(numHis)/numLines * 100) + '\n'
+	s += str(numYs) + ' y\'s (' + "{0:.2f}%)".format(float(numYs)/numLines * 100) + '\n'
+	s += str(numRips) + ' rip\'s (' + "{0:.2f}%)".format(float(numRips)/numLines * 100) + '\n'
 	s += 'Total lines: ' + str(numLines) + '\n'	
 	msg.Chat.SendMessage(s)
 	print s
