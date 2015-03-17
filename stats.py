@@ -40,16 +40,22 @@ def stats(msg):
 	global numHis
 	global numYs
 	global numRips
- 
+ 	
+	changed = False
 	numLines += 1
 	if (msg.Body.lower() == 'hi'):
 		numHis += 1
-		saveStats()
+		changed = True
 	if (msg.Body.lower() == 'y'):
 		numYs += 1
-		saveStats()
+		changed = True
 	if (msg.Body.lower() == 'rip'):
 		numRips += 1
+		changed = True
+	if changed == True:
+		rpg.currentXP += 1
+		rpg.calcLevel()
+		rpg.saveRPG()
 		saveStats()
  
 def printStats(msg):
@@ -58,8 +64,6 @@ def printStats(msg):
 	s += str(numRips) + ' rip\'s (' + "{0:.2f}%)".format(float(numRips)/numLines * 100) + '\n'
 	s += 'Total lines: ' + str(numLines) + '\n'
 	s += '----------------------------------------\n'
-	rpg.currentXP = 83
-	rpg.calcLevel()
 	s += 'Level: ' + str(rpg.currentLevel) + ' XP: ' + str(rpg.currentXP) + '\n'
 	msg.Chat.SendMessage(s)
 	print s
