@@ -21,7 +21,6 @@ Commands:
     * !botstart - starts up the chatbot, talk to it with '!' at the start of your message
     * !botend - ends the chatbot
     * !trivia - toggles the trivia game, respond with '!' at the start of your answers
-	* !stats - Shows stats for all chats
     
 
 Uses Skype4Py, Beautiful Soup, and ChatterbotAPI  
