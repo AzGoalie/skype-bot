@@ -58,3 +58,4 @@ target/
 *.txt~
 
 stats.txt
+.git-old/
