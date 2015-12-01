@@ -19,7 +19,7 @@ public class Roll implements Plugin {
     }
 
     public void doCommand(MessageReceivedEvent event) throws SkypeException {
-        String sides = event.getMessage().getMessage().toString().replace(getCommand(), "").trim();
+        String sides = event.getMessage().getContent().toString().replace(getCommand(), "").trim();
         int n = 20;
         if (!sides.isEmpty()) {
             n = Integer.parseInt(sides);

@@ -66,7 +66,7 @@ public class Chatbot implements Plugin {
 
         public void doCommand(MessageReceivedEvent event) throws SkypeException {
             try {
-                String str = event.getMessage().getMessage().toString().replace("!", "").trim();
+                String str = event.getMessage().getContent().toString().replace("!", "").trim();
                 str = session.think(str).replaceAll("(?s)<[^>]*>(\\s*<[^>]*>)*", " ");;
                 event.getChat().sendMessage(Message.create().with(Text.plain(str)));
             } catch (Exception e) {

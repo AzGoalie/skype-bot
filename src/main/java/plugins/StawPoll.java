@@ -32,7 +32,7 @@ public class StawPoll implements Plugin {
     }
 
     public void doCommand(MessageReceivedEvent event) throws SkypeException {
-        if (event.getMessage().getMessage().toString().split(" ")[1].equals("results")) {
+        if (event.getMessage().getContent().toString().split(" ")[1].equals("results")) {
             viewPoll(event);
         } else {
             createPoll(event);
@@ -40,7 +40,7 @@ public class StawPoll implements Plugin {
     }
 
     private void createPoll(MessageReceivedEvent event) throws SkypeException {
-        String parts[] = event.getMessage().getMessage().toString().replace(getCommand(), "").split(
+        String parts[] = event.getMessage().getContent().toString().replace(getCommand(), "").split(
                 ",");
         if (parts.length < 3) {
             event.getChat().sendMessage(Message.create().with(Text
@@ -92,7 +92,7 @@ public class StawPoll implements Plugin {
     }
 
     private void viewPoll(MessageReceivedEvent event) throws SkypeException {
-        String id = event.getMessage().getMessage().toString().split(" ")[2];
+        String id = event.getMessage().getContent().toString().split(" ")[2];
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(API_URL + "/" + id);
             HttpResponse result = httpClient.execute(request);

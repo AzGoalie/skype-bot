@@ -1,12 +1,13 @@
 package bot;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.samczsun.skype4j.Skype;
+import com.samczsun.skype4j.SkypeBuilder;
 import com.samczsun.skype4j.events.EventHandler;
 import com.samczsun.skype4j.events.Listener;
 import com.samczsun.skype4j.events.chat.message.MessageReceivedEvent;
+import com.samczsun.skype4j.exceptions.ConnectionException;
 import com.samczsun.skype4j.exceptions.SkypeException;
 import com.samczsun.skype4j.formatting.Message;
 import com.samczsun.skype4j.formatting.Text;
@@ -24,14 +25,13 @@ public class SkypeBot {
             addPlugin(new Help());
 
             System.out.println("Logging into Skype");
-            skype = Skype.login(username, password);
+            skype = new SkypeBuilder(username, password).withAllResources().build();
+            skype.login();
             skype.getEventDispatcher().registerListener(new ChatListener());
             System.out.println("Logged in and registered Chat Listener");
             skype.subscribe();
         } catch (SkypeException skypeException) {
             System.out.println("Skype failed to login: " + skypeException.getMessage());
-        } catch (IOException ioException) {
-            System.out.println("Failed to subscribe to events: " + ioException.getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ public class SkypeBot {
         try {
             System.out.println("Logging out of Skype");
             skype.logout();
-        } catch (IOException e) {
+        } catch (ConnectionException e) {
             System.out.println("Failed to logout of Skype: " + e.getMessage());
         }
     }
@@ -60,7 +60,7 @@ public class SkypeBot {
         @EventHandler
         public void onMessage(MessageReceivedEvent e) {
             if (e.getMessage().getSender().getUsername() != skype.getUsername()) {
-                String message = e.getMessage().getMessage().toString();
+                String message = e.getMessage().getContent().toString();
                 System.out.println(e.getMessage().getSender().getUsername() + " : " + message);
 
                 if (message.equals("!quit")) {
